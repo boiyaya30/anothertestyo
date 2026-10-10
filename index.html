@@ -542,12 +542,12 @@ progress[value]::-webkit-progress-value {
     flex-direction: column;
     align-items: flex-start;
     position: relative;
-    transform: translateY(-22vh); /* Shifts the card up by 25% */
+    transform: translateY(-22vh);
 }
 
 #fake-error-overlay .icon-generic {
-    width: 72px;  /* Doubled from 48px */
-    height: 97px; /* Doubled from 48px */
+    width: 72px;
+    height: 97px;
     margin-bottom: 34px;
     background-repeat: no-repeat;
     background-size: contain;
@@ -566,7 +566,7 @@ progress[value]::-webkit-progress-value {
 }
 
 #fake-error-overlay p {
-    font-size: 15px; /* Increased from 14px */
+    font-size: 15px;
     color: #9aa0a6;
     margin: 0 0 17px 0;
     line-height: 1.5;
@@ -616,8 +616,8 @@ progress[value]::-webkit-progress-value {
                 background-color: rgba(0, 0, 0, 0.8);
                 display: flex;
                 flex-direction: column;
-                justify-content: center; /* Vertically centers content */
-                align-items: center;     /* Horizontally centers content */
+                justify-content: center;
+                align-items: center;
                 z-index: 9999;
                 color: white;
                 font-family: monospace;
@@ -2021,15 +2021,13 @@ if (!deltaruneArchives[requestedChapter]) console.warn("Unknown Deltarune chapte
         </script>
 
 <script>
-    // Detect if page is already loaded inside an iframe (about:blank tab)
     const inIframe = window.self !== window.top;
     const isUnlocked = sessionStorage.getItem('site_unlocked') === 'true' || new URLSearchParams(window.location.search).get('unlocked') === 'true';
     const overlay = document.getElementById('fake-error-overlay');
     window.__lockedAudioContexts = [];
 
-    // Function to launch the site inside an about:blank iframe tab
     function launchAboutBlank() {
-        if (inIframe) return; // Prevent recursive opening inside the iframe
+        if (inIframe) return;
 
         const win = window.open('about:blank', '_blank');
         if (win) {
@@ -2046,26 +2044,22 @@ if (!deltaruneArchives[requestedChapter]) console.warn("Unknown Deltarune chapte
             iframe.style.margin = '0';
             iframe.style.padding = '0';
 
-            // Pass the unlocked flag via query param so the inner page bypasses the key
             const currentUrl = new URL(window.location.href);
             currentUrl.searchParams.set('unlocked', 'true');
             iframe.src = currentUrl.toString();
 
             win.document.body.appendChild(iframe);
 
-            // Redirect the original tab to Google so it leaves behind a blank/innocent history page
             window.location.replace("https://www.google.com");
         }
     }
 
     if (isUnlocked) {
         if (overlay) overlay.style.display = 'none';
-        // If already unlocked outside an iframe, cloak into about:blank
         if (!inIframe) {
             launchAboutBlank();
         }
     } else {
-        // Audio blocker setup
         const setupAudioBlocker = (ContextClass) => {
             if (!ContextClass) return;
 
@@ -2098,13 +2092,11 @@ if (!deltaruneArchives[requestedChapter]) console.warn("Unknown Deltarune chapte
         }
     }
 
-    // Set dynamic domain name
     const domainElem = document.getElementById('fake-domain-name');
     if (domainElem) {
         domainElem.textContent = window.location.hostname || 'fpogpogopge.surge.sh';
     }
 
-    // Unlock Sequence: Left, Left, Up, Down
     const unlockSequence = ['ArrowLeft', 'ArrowLeft', 'ArrowUp', 'ArrowDown'];
     let sequenceIndex = 0;
 
@@ -2117,7 +2109,6 @@ if (!deltaruneArchives[requestedChapter]) console.warn("Unknown Deltarune chapte
                 }
                 sessionStorage.setItem('site_unlocked', 'true');
                 
-                // Unblock and resume all audio contexts once unlocked
                 if (window.__lockedAudioContexts) {
                     window.__lockedAudioContexts.forEach(ctx => {
                         if (ctx.state === 'suspended') {
@@ -2127,7 +2118,6 @@ if (!deltaruneArchives[requestedChapter]) console.warn("Unknown Deltarune chapte
                 }
                 sequenceIndex = 0;
 
-                // Open site in about:blank cloaked tab
                 launchAboutBlank();
             }
         } else {
@@ -2139,8 +2129,7 @@ if (!deltaruneArchives[requestedChapter]) console.warn("Unknown Deltarune chapte
 <script>
     const desiredTitle = "fpogpogopge.com";
     document.title = desiredTitle;
-    
-    // Continuously watch for and block any scripts (like GameMaker) from changing the title back
+
     new MutationObserver(() => {
         if (document.title !== desiredTitle) {
             document.title = desiredTitle;
